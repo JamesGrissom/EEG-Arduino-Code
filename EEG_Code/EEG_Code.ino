@@ -37,37 +37,44 @@ void setup() {
 }
 
 void loop() {
-// Stores the calculated power of each type of brain wave
+  
+  // Stores the calculated power of each type of brain wave
   double delta = 0;
   double theta = 0;
   double aplpha = 0;
   double beta = 0;
   double gamma = 0;
-// Stores the bar graph hight for each type of brain wave
+  
+  // Stores the bar graph hight for each type of brain wave
   int deltaGraph = 10;
   int thetaGraph = 20;
   int alphaGraph = 30;
   int betaGraph = 40;
   int gammaGraph = 50;
+  
+  display.clearDisplay();
 
-display.clearDisplay();
-display.setTextSize(0);
-display.setTextColor(WHITE);
-display.setCursor(8,0);
-display.print("D");
-display.setCursor(34,0);
-display.print("T");
-display.setCursor(60,0);
-display.print("A");
-display.setCursor(86,0);
-display.print("B");
-display.setCursor(112,0);
-display.print("G");
-display.fillRect(0, (64 - deltaGraph), 24, deltaGraph, WHITE);
-display.fillRect(26, (64 - thetaGraph), 24, thetaGraph, WHITE);
-display.fillRect(52, (64 - alphaGraph), 24, alphaGraph, WHITE);
-display.fillRect(78, (64 - betaGraph), 24, betaGraph, WHITE);
-display.fillRect(104, (64 - gammaGraph), 24, gammaGraph, WHITE);
-display.display();
+  // Diplsys Column Labels for the bar graph
+  display.setTextSize(0);
+  display.setTextColor(WHITE);
+  display.setCursor(8, 0);
+  display.print("D");
+  display.setCursor(34, 0);
+  display.print("T");
+  display.setCursor(60, 0);
+  display.print("A");
+  display.setCursor(86, 0);
+  display.print("B");
+  display.setCursor(112, 0);
+  display.print("G");
+
+  // Displays the data in a bar graph
+  display.fillRect(0, (64 - deltaGraph), 24, deltaGraph, WHITE);
+  display.fillRect(26, (64 - thetaGraph), 24, thetaGraph, WHITE);
+  display.fillRect(52, (64 - alphaGraph), 24, alphaGraph, WHITE);
+  display.fillRect(78, (64 - betaGraph), 24, betaGraph, WHITE);
+  display.fillRect(104, (64 - gammaGraph), 24, gammaGraph, WHITE);
+  
+  display.display();
 
 }
