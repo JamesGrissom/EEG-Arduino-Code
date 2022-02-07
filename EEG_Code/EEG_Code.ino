@@ -54,7 +54,7 @@ void loop() {
   
   display.clearDisplay();
 
-  // Diplsys Column Labels for the bar graph
+  // Diplays Column Labels for the bar graph
   display.setTextSize(0);
   display.setTextColor(WHITE);
   display.setCursor(8, 0);
