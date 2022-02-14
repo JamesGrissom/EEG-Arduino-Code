@@ -37,20 +37,22 @@ void setup() {
 }
 
 void loop() {
+
+  double signalVoltage = analogRead(1)/204.8;
   
   // Stores the calculated power of each type of brain wave
-  double delta = 0;
-  double theta = 0;
-  double aplpha = 0;
-  double beta = 0;
-  double gamma = 0;
+  double delta = signalVoltage;
+  double theta = signalVoltage;
+  double alpha = signalVoltage;
+  double beta = signalVoltage;
+  double gamma = signalVoltage;
   
   // Stores the bar graph hight for each type of brain wave
-  int deltaGraph = 10;
-  int thetaGraph = 20;
-  int alphaGraph = 30;
-  int betaGraph = 40;
-  int gammaGraph = 50;
+  int deltaGraph = round(11.6 * delta);
+  int thetaGraph = round(11.6 * theta);
+  int alphaGraph = round(11.6 * alpha);
+  int betaGraph = round(11.6 * beta);
+  int gammaGraph = round(11.6 * gamma);
   
   display.clearDisplay();
 
