@@ -28,12 +28,7 @@
   (PartMRUSelector)
   (GlobalState
     (FileView
-      (Path "Design Resources")
-      (Path "Design Resources" "C:\Users\Tony\Downloads\eeg amplifier.dsn")
-      (Path "Design Resources" "C:\Users\Tony\Downloads\eeg amplifier.dsn"
-         "SCHEMATIC1")
-      (Select "Design Resources" "C:\Users\Tony\Downloads\eeg amplifier.dsn"
-         "SCHEMATIC1" "PAGE1"))
+      (Path "Design Resources"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
@@ -43,10 +38,11 @@
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 -1 -1 5 884 24 557")
-        (Scroll "0 0")
+        (Placement "44 0 1 -1 -1 -1 -1 5 1290 24 557")
+        (Scroll "-141 0")
         (Zoom "100")
         (Occurrence "/"))
-      (Path "C:\USERS\TONY\DOWNLOADS\EEG AMPLIFIER.DSN")
+      (Path
+         "C:\USERS\TONY\DOCUMENTS\SPRING_2022\ECE 2804 INTEGRATED DESIGN\GITHUB\EEG-ARDUINO-CODE\EEG AMPLIFIER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "PAGE1"))))
