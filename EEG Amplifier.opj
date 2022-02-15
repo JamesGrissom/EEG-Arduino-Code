@@ -1,20 +1,19 @@
-(ExpressProject ""
+(ExpressProject "EEG Amplifier"
   (ProjectVersion "19981106")
-  (SoftwareVersion "17.4-2021 S007-[02/14/22]")
+  (SoftwareVersion "17.4-2021 S007-[02/13/22]")
   (ProjectType "Analog or A/D Mixed Mode")
   (Folder "Design Resources"
     (Folder "Library")
     ("Allegro Netlist Directory" "allegro")
+    (DOCKED "TRUE")
+    (DOCKING_POSITION "59420")
+    (NoModify)
     (File ".\eeg amplifier.dsn"
       (Type "Schematic Design"))
     (BuildFileAddedOrDeleted "x")
-    (CompileFileAddedOrDeleted "x")
-    (DOCKED "TRUE")
-    (DOCKING_POSITION "59420")
-    (NoModify))
+    (CompileFileAddedOrDeleted "x"))
   (Folder "Layout")
   (Folder "Outputs")
-  (Folder "Referenced Projects")
   (Folder "PSpice Resources"
     (Folder "Simulation Profiles")
     (Folder "Model Libraries"
@@ -23,30 +22,5 @@
       (Sort User))
     (Folder "Include Files"
       (Sort User)))
-  (Folder "Logs")
-  (PartMRUSelector)
-  (MPSSessionName "Tony")
-  (GlobalState
-    (FileView
-      (Path "Design Resources")
-      (Path "Design Resources" "c:\users\tony\downloads\eeg amplifier.dsn")
-      (Path "Design Resources" "c:\users\tony\downloads\eeg amplifier.dsn"
-         "SCHEMATIC1")
-      (Select "Design Resources" "c:\users\tony\downloads\eeg amplifier.dsn"
-         "SCHEMATIC1" "PAGE1"))
-    (HierarchyView)
-    (Doc
-      (Type "COrCapturePMDoc")
-      (Frame
-        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 329"))
-      (Tab 0))
-    (Doc
-      (Type "COrSchematicDoc")
-      (Frame
-        (Placement "44 0 1 -1 -1 -1 -1 5 656 24 347")
-        (Scroll "0 40")
-        (Zoom "100")
-        (Occurrence "/"))
-      (Path "C:\USERS\TONY\DOWNLOADS\EEG AMPLIFIER.DSN")
-      (Schematic "SCHEMATIC1")
-      (Page "PAGE1"))))
+  (DefaultLibraryBrowseDirectory "library\PSpice")
+  (Folder "Logs"))
