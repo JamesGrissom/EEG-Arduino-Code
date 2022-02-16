@@ -1,0 +1,70 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (SoftwareVersion "17.4-2021 S007-[02/16/22]")
+  (ProjectType "Analog or A/D Mixed Mode")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (Allegro Netlist Directory "allegro")
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (DOCKED "TRUE")
+    (DOCKING_POSITION "59420")
+    (NoModify)
+    (File ".\eeg amplifier.dsn"
+      (Type "Schematic Design"))
+    (PSPICE_Regenerate_Netlist_Flag "FALSE"))
+  (Folder "Layout")
+  (Folder "Outputs"
+    (File ".\eeg amplifier-pspicefiles\schematic1\schematic1.net"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (Folder "PSpice Resources"
+    (Folder "Simulation Profiles"
+      (ActiveProfile ".\eeg amplifier-pspicefiles\schematic1\test1.sim")
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\eeg amplifier-pspicefiles\schematic1\test1.sim"
+        (DisplayName "SCHEMATIC1-Test1")
+        (Type "PSpice Profile")))
+    (Folder "Model Libraries"
+      (Sort User))
+    (Folder "Stimulus Files"
+      (Sort User))
+    (Folder "Include Files"
+      (Sort User)))
+  (Folder "Logs")
+  (MPSSessionName "Tony")
+  (PartMRUSelector
+    (IDC
+      (FullPartName "IDC.Normal")
+      (LibraryName
+         "C:\CADENCE\PSPICETI\TOOLS\CAPTURE\LIBRARY\PSPICE\SOURCE.OLB")
+      (DeviceIndex "0")))
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources"
+         "c:\users\tony\documents\spring_2022\ece 2804 integrated design\github\eeg-arduino-code\2\eeg amplifier.dsn")
+      (Path "Design Resources"
+         "c:\users\tony\documents\spring_2022\ece 2804 integrated design\github\eeg-arduino-code\2\eeg amplifier.dsn"
+         "SCHEMATIC1")
+      (Path "Outputs")
+      (Select "Design Resources"
+         "c:\users\tony\documents\spring_2022\ece 2804 integrated design\github\eeg-arduino-code\2\eeg amplifier.dsn"
+         "SCHEMATIC1" "PAGE1"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 329"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 5 24 5 442 24 347")
+        (Scroll "0 0")
+        (Zoom "69")
+        (Occurrence "/"))
+      (Path
+         "C:\USERS\TONY\DOCUMENTS\SPRING_2022\ECE 2804 INTEGRATED DESIGN\GITHUB\EEG-ARDUINO-CODE\2\EEG AMPLIFIER.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "PAGE1"))))
