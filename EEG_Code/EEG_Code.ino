@@ -60,6 +60,13 @@ void loop() {
     Serial.println(dataArray[i]);
   }
 
+  // Computing The FFT
+
+
+
+
+
+
   double signalVoltage = analogRead(1) / 204.8;
 
   // Stores the calculated power of each type of brain wave
