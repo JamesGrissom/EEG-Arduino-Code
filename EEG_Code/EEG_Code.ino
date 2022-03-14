@@ -24,6 +24,7 @@ double vImag[samples];
 
 unsigned long time;
 
+
 #define SCL_INDEX 0x00
 #define SCL_TIME 0x01
 #define SCL_FREQUENCY 0x02
@@ -34,26 +35,51 @@ void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
 
+  Serial.begin(9600);
+
 }
 
 void loop() {
+  const int sampleRate = 128;
+  int sample = 0;
 
-  double signalVoltage = analogRead(1)/204.8;
-  
+  double dataArray[sampleRate];
+
+  while (sample <= sampleRate) {
+
+    double signalVoltage = analogRead(1) / 204.8;
+
+    dataArray[sample] = signalVoltage;
+
+    sample++;
+
+    delay(round(1024 / sampleRate));
+
+  }
+
+  for (int i = 0; i < sampleRate; i++) {
+
+    Serial.println(dataArray[i]);
+  }
+
+  double signalVoltage = analogRead(1) / 204.8;
+
   // Stores the calculated power of each type of brain wave
   double delta = signalVoltage;
   double theta = signalVoltage;
   double alpha = signalVoltage;
   double beta = signalVoltage;
   double gamma = signalVoltage;
-  
+
   // Stores the bar graph hight for each type of brain wave
   int deltaGraph = round(11.6 * delta);
   int thetaGraph = round(11.6 * theta);
   int alphaGraph = round(11.6 * alpha);
   int betaGraph = round(11.6 * beta);
   int gammaGraph = round(11.6 * gamma);
-  
+
+  Serial.println(signalVoltage);
+
   display.clearDisplay();
 
   // Diplays Column Labels for the bar graph
@@ -76,7 +102,10 @@ void loop() {
   display.fillRect(52, (64 - alphaGraph), 24, alphaGraph, WHITE);
   display.fillRect(78, (64 - betaGraph), 24, betaGraph, WHITE);
   display.fillRect(104, (64 - gammaGraph), 24, gammaGraph, WHITE);
-  
+
   display.display();
+  delay(8);
+
+  sample = 0;
 
 }
