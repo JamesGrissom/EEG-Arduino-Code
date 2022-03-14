@@ -34,9 +34,7 @@ unsigned long time;
 void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
-
   Serial.begin(9600);
-
 }
 
 void loop() {
@@ -104,8 +102,6 @@ void loop() {
   display.fillRect(104, (64 - gammaGraph), 24, gammaGraph, WHITE);
 
   display.display();
-  delay(8);
 
   sample = 0;
-
 }

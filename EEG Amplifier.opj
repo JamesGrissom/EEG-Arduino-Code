@@ -1,6 +1,6 @@
 (ExpressProject ""
   (ProjectVersion "19981106")
-  (SoftwareVersion "17.4-2021 S007-[02/14/22]")
+  (SoftwareVersion "17.4-2021 S007-[02/21/22]")
   (ProjectType "Analog or A/D Mixed Mode")
   (Folder "Design Resources"
     (Folder "Library")
@@ -38,28 +38,33 @@
       (LibraryName
          "C:\CADENCE\PSPICETI\TOOLS\CAPTURE\LIBRARY\PSPICE\SOURCE.OLB")
       (DeviceIndex "0")))
-  (MPSSessionName "james")
+  (MPSSessionName "Tony")
   (GlobalState
     (FileView
       (Path "Design Resources")
-      (Path "Design Resources" ".\eeg amplifier.dsn")
-      (Path "Design Resources" ".\eeg amplifier.dsn" "SCHEMATIC1")
+      (Path "Design Resources"
+         "c:\users\tony\documents\spring_2022\ece 2804 integrated design\github\eeg-arduino-code\eeg amplifier.dsn")
+      (Path "Design Resources"
+         "c:\users\tony\documents\spring_2022\ece 2804 integrated design\github\eeg-arduino-code\eeg amplifier.dsn"
+         "SCHEMATIC1")
       (Path "Outputs")
-      (Select "Design Resources" ".\eeg amplifier.dsn" "SCHEMATIC1" "PAGE1"))
+      (Select "Design Resources"
+         "c:\users\tony\documents\spring_2022\ece 2804 integrated design\github\eeg-arduino-code\eeg amplifier.dsn"
+         "SCHEMATIC1" "PAGE1"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 638"))
+        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 539"))
       (Tab 0))
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 5 24 5 1260 24 656")
-        (Scroll "-24 0")
-        (Zoom "121")
+        (Placement "44 0 1 -1 -1 -1 -1 5 884 24 557")
+        (Scroll "25 182")
+        (Zoom "138")
         (Occurrence "/"))
       (Path
-         "C:\USERS\JAMES\DOCUMENTS\SCHOOL\SPRING 2022\ECE 2804 INTEGRATED DESIGN PROJECT 13616\EEG PROJECT\EEG-ARDUINO-CODE\EEG AMPLIFIER.DSN")
+         "C:\USERS\TONY\DOCUMENTS\SPRING_2022\ECE 2804 INTEGRATED DESIGN\GITHUB\EEG-ARDUINO-CODE\EEG AMPLIFIER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "PAGE1"))))
