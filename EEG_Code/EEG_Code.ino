@@ -130,7 +130,6 @@ float FFT(int in[], int N, float Frequency)
     }
   }
 
-
   for (int i = 0; i < data[o]; i++)     // update input array as per bit reverse order
   {
     if (in_ps[i] < a)
@@ -142,7 +141,6 @@ float FFT(int in[], int N, float Frequency)
       out_r[i] = in[in_ps[i] - a];
     }
   }
-
 
   int i10, i11, n1;
   float e, c, s, tr, ti;
