@@ -6,12 +6,14 @@
 // On an arduino UNO:       A4(SDA), A5(SCL)
 
 #define OLED_RESET     4 // Reset pin # (or -1 if sharing Arduino reset pin)
+#define SCREEN_ADDRESS 0x3C
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 
 
 // This will allow us to use the byte data type instead of floats when calculating sin and cos in the FFT
 
-byte sine_data [91] = {
+/*
+  byte sine_data [91] = {
   0,
   4,    9,    13,   18,   22,   27,   31,   35,   40,   44,
   49,   53,   57,   62,   66,   70,   75,   79,   83,   87,
@@ -23,8 +25,9 @@ byte sine_data [91] = {
   241,  243,  244,  245,  246,  247,  248,  249,  250,  251,
   252,  253,  253,  254,  254,  254,  255,  255,  255,  255
 };
+*/
 
-float f_peaks[5]; // 5 dominant frequencies in descending order
+//float f_peaks[5]; // 5 dominant frequencies in descending order
 
 void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -50,11 +53,11 @@ void loop() {
   }
 
   // Calling The FFT Function
-  FFT(dataArray, 128, 128);
+ /* FFT(dataArray, 128, 128);
   Serial.println(f_peaks[0]);
   Serial.println(f_peaks[1]);
   delay(99999);
-
+*/
   double signalVoltage = analogRead(1) / 204.8;
 
   // Stores the calculated power of each type of brain wave
@@ -101,7 +104,7 @@ void loop() {
   sample = 0;
 }
 
-float FFT(int in[], int N, float Frequency)
+/*float FFT(int in[], int N, float Frequency)
 {
   unsigned int data[13] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048};
   int a, c1, f, o, x;
@@ -264,3 +267,4 @@ float cosine(int i)
   }
   return (out / 255);
 }
+*/
