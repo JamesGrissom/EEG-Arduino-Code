@@ -38,12 +38,11 @@ void setup() {
 void loop() {
   const int sampleRate = 128;
   int sample = 0;
-
   int dataArray[sampleRate];
 
   while (sample <= sampleRate) {
-    double signalVoltage = analogRead(1) / 204.8;
-    dataArray[sample] = signalVoltage;
+    int signalV = (int)round(analogRead(1) / 204.8);
+    dataArray[sample] = signalV;
     delay(round(1024 / sampleRate));
     sample++;
   }
@@ -73,8 +72,6 @@ void loop() {
   int alphaGraph = round(11.6 * alpha);
   int betaGraph = round(11.6 * beta);
   int gammaGraph = round(11.6 * gamma);
-
-  Serial.println(signalVoltage);
 
   display.clearDisplay();
 
