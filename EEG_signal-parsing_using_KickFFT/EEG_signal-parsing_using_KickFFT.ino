@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "arduinoFFT.h"
+#include "KickFFT.h"
 
 // On an arduino UNO:       A4(SDA), A5(SCL)
 
@@ -33,6 +33,7 @@ void loop() {
 
   // Determining the frequencies using arduinoFFT
 
+  KickFFT<Type>::fft(float fs, float f1, float f2, uint16_t samples, const Type data[], uint32_t mag[])
 
   double signalVoltage = analogRead(1) / 204.8;
 
