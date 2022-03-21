@@ -56,7 +56,6 @@ void loop() {
   }
 
   // Determining the frequencies and magnitudes using KickFFT
-
   KickFFT<int16_t>::fft(sampleRate, deltaLower, deltaUpper, samples, dataArray, deltaMag);
   KickFFT<int16_t>::fft(sampleRate, thetaLower, thetaUpper, samples, dataArray, thetaMag);
   KickFFT<int16_t>::fft(sampleRate, alphaLower, alphaUpper, samples, dataArray, alphaMag);
