@@ -16,16 +16,16 @@ uint16_t samples = 128;
 float deltaLower = 0.5;
 float deltaUpper = 4;
 
-float thetaLower = 4;
+float thetaLower = 4.0001;
 float thetaUpper = 8;
 
-float alphaLower = 8;
+float alphaLower = 8.0001;
 float alphaUpper = 12;
 
-float betaLower = 12;
+float betaLower = 12.0001;
 float betaUpper = 35;
 
-float gammaLower = 35;
+float gammaLower = 35.0001;
 float gammaUpper = 45;
 
 void setup() {
@@ -37,7 +37,134 @@ void setup() {
 
 void loop() {
 
-  int16_t dataArray[samples];
+  int16_t dataArray[samples] = {10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+75,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+110,
+75,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+75,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+110,
+75,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+75,
+25,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+110,
+75,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+75,
+5,
+10,
+50,
+10,
+25,
+10,
+50,
+10,
+5,
+10,
+50,
+10,
+25,
+10,
+128};
   uint32_t deltaMag[samples];
   uint32_t thetaMag[samples];
   uint32_t alphaMag[samples];
@@ -45,22 +172,22 @@ void loop() {
   uint32_t gammaMag[samples];
 
   // Reads and records 128 data points from analog pin 1 in 1 second
-  for (int sample = 0; sample < sampleRate; sample++) {
-    dataArray[sample] = analogRead(1);
-    delay(round(1024 / sampleRate));
-  }
-
-  // Prints dataArray to the serial monitor
-  for (int i = 0; i < sampleRate; i++) {
-    Serial.println(dataArray[i]);
-  }
+//  for (int sample = 0; sample < sampleRate; sample++) {
+//    dataArray[sample] = analogRead(1);
+//    delay(round(1024 / sampleRate));
+//  }
+//
+//  // Prints dataArray to the serial monitor
+//  for (int i = 0; i < sampleRate; i++) {
+//    Serial.println(dataArray[i]);
+//  }
 
   // Determining the frequencies and magnitudes using KickFFT
   KickFFT<int16_t>::fft(sampleRate, deltaLower, deltaUpper, samples, dataArray, deltaMag);
-  KickFFT<int16_t>::fft(sampleRate, thetaLower, thetaUpper, samples, dataArray, thetaMag);
-  KickFFT<int16_t>::fft(sampleRate, alphaLower, alphaUpper, samples, dataArray, alphaMag);
-  KickFFT<int16_t>::fft(sampleRate, betaLower, betaUpper, samples, dataArray, betaMag);
-  KickFFT<int16_t>::fft(sampleRate, gammaLower, gammaUpper, samples, dataArray, gammaMag);
+//  KickFFT<int16_t>::fft(sampleRate, thetaLower, thetaUpper, samples, dataArray, thetaMag);
+//  KickFFT<int16_t>::fft(sampleRate, alphaLower, alphaUpper, samples, dataArray, alphaMag);
+//  KickFFT<int16_t>::fft(sampleRate, betaLower, betaUpper, samples, dataArray, betaMag);
+//  KickFFT<int16_t>::fft(sampleRate, gammaLower, gammaUpper, samples, dataArray, gammaMag);
 
   // Stores the calculated average magnitude of each type of brain wave
   float delta = average(deltaMag, samples);
@@ -69,12 +196,23 @@ void loop() {
   float beta = average(betaMag, samples);
   float gamma = average(gammaMag, samples);
 
+  Serial.print(delta);
+  Serial.print(" ");
+  Serial.print(theta);
+  Serial.print(" ");
+  Serial.print(alpha);
+  Serial.print(" ");
+  Serial.print(beta);
+  Serial.print(" ");
+  Serial.println(gamma);
+  
+  
   // Stores the bar graph hight for each type of brain wave
-  int deltaGraph = round(11.6 * delta);
-  int thetaGraph = round(11.6 * theta);
-  int alphaGraph = round(11.6 * alpha);
-  int betaGraph = round(11.6 * beta);
-  int gammaGraph = round(11.6 * gamma);
+  int deltaGraph = round(0.01 * delta);
+  int thetaGraph = round(0.01 * theta);
+  int alphaGraph = round(0.01 * alpha);
+  int betaGraph = round(0.01 * beta);
+  int gammaGraph = round(0.01 * gamma);
 
   display.clearDisplay();
 
@@ -100,6 +238,8 @@ void loop() {
   display.fillRect(78, (64 - betaGraph), 24, betaGraph, WHITE);
   display.fillRect(104, (64 - gammaGraph), 24, gammaGraph, WHITE);
   display.display();
+
+  delay(1000);
 }
 
 float average (uint32_t *Array, int count) {
