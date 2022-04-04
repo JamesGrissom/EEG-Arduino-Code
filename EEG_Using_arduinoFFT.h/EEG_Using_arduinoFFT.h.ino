@@ -55,7 +55,7 @@ void loop() {
 
   // Reads and records 128 data points from analog pin 1 in 1 second
   for (int sample = 0; sample < sampleRate; sample++) {
-    vReal[sample] = analogRead(esp32Sensor);
+    vReal[sample] = analogRead(ArduinoSensor);
     vImag[sample] = 0;
     delay(round(1000 / sampleRate));
   }
@@ -63,8 +63,8 @@ void loop() {
   // Prints vReal to the serial monitor
   Serial.println("vReal ");
   for (int i = 0; i < sampleRate; i++) {
-    Serial.print(vReal[i]);
-    Serial.print(" ");
+    Serial.println(vReal[i]);
+    //Serial.print(" ");
   }
   Serial.println(" ");
 
@@ -77,16 +77,16 @@ void loop() {
   // Prints new vReal to the serial monitor
   Serial.println("New vReal ");
   for (int i = 0; i < sampleRate; i++) {
-    Serial.print(vReal[i]);
-    Serial.print(" ");
+    Serial.println(vReal[i]);
+    //Serial.print(" ");
   }
   Serial.println(" ");
 
   // Prints vImag
   Serial.println("vImag ");
   for (int i = 0; i < sampleRate; i++) {
-    Serial.print(vImag[i]);
-    Serial.print(" ");
+    Serial.println(vImag[i]);
+    //Serial.print(" ");
   }
   Serial.println(" ");
 
@@ -147,6 +147,8 @@ void loop() {
   Serial.print("Graph Hight ");
   Serial.println(waveGraph);
   waveGraph = 0;  // Resets waveaGraph value so the variable can be reused for the next wave type
+
+  delay(20000);
 }
 
 void clearGraph() {
