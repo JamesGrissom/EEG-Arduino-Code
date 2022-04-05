@@ -161,7 +161,7 @@ double averagePower(double realArray[], double imaginaryArray[], int start, int 
   double sum;
   int coefficientCount = finish - start;
   for (start; start < finish; start++) {
-    sum = (sq(realArray[start]) + sq(imaginaryArray[start]));
+    sum = (sq(realArray[start]));
   }
   return sqrt(sum / coefficientCount);
 }
