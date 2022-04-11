@@ -5,10 +5,11 @@
 #include <Adafruit_SSD1306.h>
 
 #define samples      128        // Must be a power of 2
-#define sampleRate   128        // Hz, determines maximum frequency that can be analysed by the FFT Fmax=sampleF/2.
-double vReal[samples];             // Each value is a frequency bin, stores the amount of that frequency as an amplitude, bin-widrh = SAMPLING_FREQ/SAMPLES
-double vImag[samples];
-int divider = 74;
+#define sampleRate   128        // Hz, determines maximum frequency that can be analysed by the FFT Fmax=sampleF/2
+double vReal[samples];          // Each value is a frequency bin, stores the amount of that frequency as an amplitude; bin-width = SAMPLING_FREQ/SAMPLES
+double vImag[samples];          // Stores the imaginary phase information about the input signal stored in vReal
+int bargraphArray[5];           // Stores the average power of each of the 5 brain wave frequency ranges to be displayed on the small OLED screen
+int divider = 0;                // Divides the data in the bargraphArray to scale it to properly fit the small OLED display
 arduinoFFT FFT = arduinoFFT(vReal, vImag, samples, sampleRate);
 
 // On an Arduino:      A4(SDA), A5(SCL)
@@ -27,28 +28,13 @@ int waveGraph;
 
 // Function Declarations
 void clearGraph();
-double averagePower(double realArray[], double imaginaryArray[], int start, int finish);
+double averagePower(double realArray[], int start, int finish);
 
 void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
-  pinMode(esp32Sensor, INPUT);
+  pinMode(ArduinoSensor, INPUT);
   Serial.begin(9600);
-
-//  // Diplays Column Labels for the bar graph
-//  display.setTextSize(0);
-//  display.setTextColor(WHITE);
-//  display.setCursor(8, 0);
-//  display.print("D");
-//  display.setCursor(34, 0);
-//  display.print("T");
-//  display.setCursor(60, 0);
-//  display.print("A");
-//  display.setCursor(86, 0);
-//  display.print("B");
-//  display.setCursor(112, 0);
-//  display.print("G");
-//  display.display();
 }
 
 void loop() {
@@ -108,56 +94,55 @@ void loop() {
   display.display();
 
   // Analysis of the FFT, the numbers represent the brainwave frequency ranges
-  // Computes and displays the relative power of delta waves in the first bar of the bar graph
-  waveGraph = round((averagePower(vReal, vImag, 1, 4)/divider));
-  display.fillRect(0, (64 - waveGraph), 24, waveGraph, WHITE);
-  display.display();
-  Serial.print("Graph Hight ");
-  Serial.println(waveGraph);
-  waveGraph = 0;  // Resets waveaGraph value so the variable can be reused for the next wave type
+  // Computes the power of delta waves and stores it in the bargraphArray
+  bargraphArray[0] = round(averagePower(vReal, 1, 4));
 
-  // Computes and displays the relative power of theta waves in the second bar of the bar graph
-  waveGraph = round((averagePower(vReal, vImag, 4, 8)/divider));
-  display.fillRect(26, (64 - waveGraph), 24, waveGraph, WHITE);
-  display.display();
-  Serial.print("Graph Hight ");
-  Serial.println(waveGraph);
-  waveGraph = 0;  // Resets waveaGraph value so the variable can be reused for the next wave type
+  // Computes the power of theta waves and stores it in the bargraphArray
+  bargraphArray[1] = round(averagePower(vReal, 4, 8));
 
-  // Computes and displays the relative power of alpha waves in the third bar of the bar graph
-  waveGraph = round((averagePower(vReal, vImag, 8, 12)/divider));
-  display.fillRect(52, (64 - waveGraph), 24, waveGraph, WHITE);
-  display.display();
-  Serial.print("Graph Hight ");
-  Serial.println(waveGraph);
-  waveGraph = 0;  // Resets waveaGraph value so the variable can be reused for the next wave type
+  // Computes the power of alpha waves and stores it in the bargraphArray
+  bargraphArray[2] = round(averagePower(vReal, 8, 12));
 
-  // Computes and displays the relative power of beta waves in the fourth bar of the bar graph
-  waveGraph = round((averagePower(vReal, vImag, 12, 30)/divider));
-  display.fillRect(78, (64 - waveGraph), 24, waveGraph, WHITE);
-  display.display();
-  Serial.print("Graph Hight ");
-  Serial.println(waveGraph);
-  waveGraph = 0;  // Resets waveaGraph value so the variable can be reused for the next wave type
+  // Computes the power of beta waves and stores it in the bargraphArray
+  bargraphArray[3] = round(averagePower(vReal, 12, 30));
 
-  // Computes and displays the relative power of gamma waves in the fifth bar of the bar graph
-  waveGraph = round((averagePower(vReal, vImag, 30, 50)/divider));
-  display.fillRect(104, (64 - waveGraph), 24, waveGraph, WHITE);
+  // Computes the power of gamma waves and stores it in the bargraphArray
+  bargraphArray[4] = round(averagePower(vReal, 30, 50));
+
+  Serial.println("Brain Waves: ");
+  for (int i = 0; i < 4; i++) {
+    Serial.print(bargraphArray[i]);
+    //Serial.print(", ");
+  }
+
+  //Determines the strongest brain to find a division factor to scale the graph to the small OLED screen
+  int maxV = 0;
+  for (int i = 0; i < 4; i++) {
+    if (maxV < bargraphArray[i]) {
+      maxV = bargraphArray[i];
+    }
+  }
+
+  // Calculates the division factor to scale the bar graph to the small OLED screen
+  divider = round(maxV / 58);
+
+  // Displays the scaled brain wave data on the bar graph
+  display.fillRect(0, (64 - round(bargraphArray[0] / divider)), 24, waveGraph, WHITE);
+  display.fillRect(26, (64 - round(bargraphArray[1] / divider)), 24, waveGraph, WHITE);
+  display.fillRect(52, (64 - round(bargraphArray[2] / divider)), 24, waveGraph, WHITE);
+  display.fillRect(78, (64 - round(bargraphArray[3] / divider)), 24, waveGraph, WHITE);
+  display.fillRect(104, (64 - round(bargraphArray[4] / divider)), 24, waveGraph, WHITE);
   display.display();
-  Serial.print("Graph Hight ");
-  Serial.println(waveGraph);
-  waveGraph = 0;  // Resets waveaGraph value so the variable can be reused for the next wave type
+
+  // Clears the bargraphArray
+  for (int i = 0; i < 4; i++) {
+    bargraphArray[i] = 0;
+  }
 
   delay(20000);
 }
 
-void clearGraph() {
-  display.fillRect(0, 0, 128, 64, BLACK);
-  display.display();
-  return;
-}
-
-double averagePower(double realArray[], double imaginaryArray[], int start, int finish) {
+double averagePower(double realArray[], int start, int finish) {
   double sum;
   int coefficientCount = finish - start;
   for (start; start < finish; start++) {
