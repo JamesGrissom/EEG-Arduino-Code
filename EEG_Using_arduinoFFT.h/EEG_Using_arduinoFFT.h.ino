@@ -10,6 +10,7 @@ double vReal[samples];          // Each value is a frequency bin, stores the amo
 double vImag[samples];          // Stores the imaginary phase information about the input signal stored in vReal
 int bargraphArray[5];           // Stores the average power of each of the 5 brain wave frequency ranges to be displayed on the small OLED screen
 int divider = 0;                // Divides the data in the bargraphArray to scale it to properly fit the small OLED display
+int maxV = 0;
 arduinoFFT FFT = arduinoFFT(vReal, vImag, samples, sampleRate);
 
 // On an Arduino:      A4(SDA), A5(SCL)
@@ -26,8 +27,7 @@ Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 // Stores the scaled brainwave power to be displayed in a bar graph
 int waveGraph;
 
-// Function Declarations
-void clearGraph();
+// averagePower function Declarations
 double averagePower(double realArray[], int start, int finish);
 
 void setup() {
@@ -46,33 +46,30 @@ void loop() {
     delay(round(1000 / sampleRate));
   }
 
-  // Prints vReal to the serial monitor
-  Serial.println("vReal ");
-  for (int i = 0; i < sampleRate; i++) {
-    Serial.println(vReal[i]);
-    //Serial.print(" ");
-  }
-  Serial.println(" ");
-
   // Calculates the FFT
   FFT.DCRemoval();
   FFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
   FFT.Compute(FFT_FORWARD);
   FFT.ComplexToMagnitude();
+  int Vmax = 0;
+  int Fmax = 0;
+  for (int i = 0; i < 63; i++) {
+    if (Vmax < vReal[i]) {
+      Vmax = vReal[i];
+      Fmax = i;
+    }
+  }
+  Serial.print("Strongest Frequency: ");
+  Serial.print(Fmax);
+  Serial.print("Hz at ");
+  Serial.print(Vmax);
+  Serial.println(" Volts");
 
   // Prints new vReal to the serial monitor
-  Serial.println("New vReal ");
+  Serial.println("Fourier Transform ");
   for (int i = 0; i < sampleRate; i++) {
-    Serial.println(vReal[i]);
-    //Serial.print(" ");
-  }
-  Serial.println(" ");
-
-  // Prints vImag
-  Serial.println("vImag ");
-  for (int i = 0; i < sampleRate; i++) {
-    Serial.println(vImag[i]);
-    //Serial.print(" ");
+    Serial.print(vReal[i]);
+    Serial.print(", ");
   }
   Serial.println(" ");
 
@@ -98,25 +95,19 @@ void loop() {
   bargraphArray[0] = round(averagePower(vReal, 1, 4));
 
   // Computes the power of theta waves and stores it in the bargraphArray
-  bargraphArray[1] = round(averagePower(vReal, 4, 8));
+  bargraphArray[1] = round(averagePower(vReal, 4, 7));
 
   // Computes the power of alpha waves and stores it in the bargraphArray
-  bargraphArray[2] = round(averagePower(vReal, 8, 12));
+  bargraphArray[2] = round(averagePower(vReal, 7, 11));
 
   // Computes the power of beta waves and stores it in the bargraphArray
-  bargraphArray[3] = round(averagePower(vReal, 12, 30));
+  bargraphArray[3] = round(averagePower(vReal, 11, 27));
 
   // Computes the power of gamma waves and stores it in the bargraphArray
-  bargraphArray[4] = round(averagePower(vReal, 30, 50));
+  bargraphArray[4] = round(averagePower(vReal, 27, 46));
 
-  Serial.println("Brain Waves: ");
-  for (int i = 0; i < 4; i++) {
-    Serial.print(bargraphArray[i]);
-    //Serial.print(", ");
-  }
 
   //Determines the strongest brain to find a division factor to scale the graph to the small OLED screen
-  int maxV = 0;
   for (int i = 0; i < 4; i++) {
     if (maxV < bargraphArray[i]) {
       maxV = bargraphArray[i];
@@ -124,14 +115,21 @@ void loop() {
   }
 
   // Calculates the division factor to scale the bar graph to the small OLED screen
-  divider = round(maxV / 58);
+  divider = round(maxV / 56);
+
+    Serial.print("Brain Waves: ");
+  for (int i = 0; i < 4; i++) {
+    Serial.print(round(bargraphArray[i] / divider));
+    Serial.print(", ");
+  }
+  Serial.println(" ");
 
   // Displays the scaled brain wave data on the bar graph
-  display.fillRect(0, (64 - round(bargraphArray[0] / divider)), 24, waveGraph, WHITE);
-  display.fillRect(26, (64 - round(bargraphArray[1] / divider)), 24, waveGraph, WHITE);
-  display.fillRect(52, (64 - round(bargraphArray[2] / divider)), 24, waveGraph, WHITE);
-  display.fillRect(78, (64 - round(bargraphArray[3] / divider)), 24, waveGraph, WHITE);
-  display.fillRect(104, (64 - round(bargraphArray[4] / divider)), 24, waveGraph, WHITE);
+  display.fillRect(0, (64 - (round(bargraphArray[0] / divider))), 24, round(bargraphArray[0] / divider), WHITE);
+  display.fillRect(26, (64 - (round(bargraphArray[1] / divider))), 24, round(bargraphArray[1] / divider), WHITE);
+  display.fillRect(52, (64 - (round(bargraphArray[2] / divider))), 24, round(bargraphArray[2] / divider), WHITE);
+  display.fillRect(78, (64 - (round(bargraphArray[3] / divider))), 24, round(bargraphArray[3] / divider), WHITE);
+  display.fillRect(104, (64 - (round(bargraphArray[4] / divider))), 24, round(bargraphArray[4] / divider), WHITE);
   display.display();
 
   // Clears the bargraphArray
@@ -139,7 +137,9 @@ void loop() {
     bargraphArray[i] = 0;
   }
 
-  delay(20000);
+  int maxV = 0;
+
+//  delay(10000);
 }
 
 double averagePower(double realArray[], int start, int finish) {
