@@ -1,6 +1,7 @@
 // EEG using the arduinoFFT.h library
 // Developed by James Grissom for use in ECE 2804 Integrated Design Project
 // Completed in April of 2022
+// View project on GitHub at https://github.com/JamesGrissom/EEG-Arduino-Code
 
 #include <arduinoFFT.h>
 #include <SPI.h>
@@ -55,6 +56,8 @@ void loop() {
   FFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);    // Sets the windowing for the FFT
   FFT.Compute(FFT_FORWARD);   // Computes the FFT
   FFT.ComplexToMagnitude();   // Determines magnitudes from imaginary data (we are not interested in the imaginary part for this FFT application)
+
+  vReal[16] = 0;
 
   // Determines the dominant frequency and its magnitude in the vReal array
   for (int i = 0; i < 63; i++) {
@@ -132,7 +135,7 @@ void loop() {
   Serial.println(" ");
 
   // Displays the scaled brain wave data on the bar graph
-  display.fillRect(0, (64 - (round(bargraphArray[0] / divider))), 24, round(bargraphArray[0] / divider), WHITE);
+  display.fillRect(0, (64 - (round(bargraphArray[0] / (divider * 2)))), 24, round(bargraphArray[0] / divider), WHITE);
   display.fillRect(26, (64 - (round(bargraphArray[1] / divider))), 24, round(bargraphArray[1] / divider), WHITE);
   display.fillRect(52, (64 - (round(bargraphArray[2] / divider))), 24, round(bargraphArray[2] / divider), WHITE);
   display.fillRect(78, (64 - (round(bargraphArray[3] / divider))), 24, round(bargraphArray[3] / divider), WHITE);
