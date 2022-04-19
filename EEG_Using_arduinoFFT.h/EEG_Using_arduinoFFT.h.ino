@@ -1,3 +1,7 @@
+// EEG using the arduinoFFT.h library
+// Developed by James Grissom for use in ECE 2804 Integrated Design Project
+// Completed in April of 2022
+
 #include <arduinoFFT.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -10,7 +14,10 @@ double vReal[samples];          // Each value is a frequency bin, stores the amo
 double vImag[samples];          // Stores the imaginary phase information about the input signal stored in vReal
 int bargraphArray[5];           // Stores the average power of each of the 5 brain wave frequency ranges to be displayed on the small OLED screen
 int divider = 0;                // Divides the data in the bargraphArray to scale it to properly fit the small OLED display
-int maxV = 0;
+int Vmax = 0;
+int Fmax = 0;
+int Bmax = 0;
+
 arduinoFFT FFT = arduinoFFT(vReal, vImag, samples, sampleRate);
 
 // On an Arduino:      A4(SDA), A5(SCL)
@@ -24,10 +31,7 @@ int esp32Sensor = 26;
 #define SCREEN_ADDRESS 0x3C
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 
-// Stores the scaled brainwave power to be displayed in a bar graph
-int waveGraph;
-
-// averagePower function Declarations
+// averagePower function Declaration
 double averagePower(double realArray[], int start, int finish);
 
 void setup() {
@@ -47,23 +51,24 @@ void loop() {
   }
 
   // Calculates the FFT
-  FFT.DCRemoval();
-  FFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Compute(FFT_FORWARD);
-  FFT.ComplexToMagnitude();
-  int Vmax = 0;
-  int Fmax = 0;
+  FFT.DCRemoval();    // Removes any DC offset from the recorded data
+  FFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);    // Sets the windowing for the FFT
+  FFT.Compute(FFT_FORWARD);   // Computes the FFT
+  FFT.ComplexToMagnitude();   // Determines magnitudes from imaginary data (we are not interested in the imaginary part for this FFT application)
+
+  // Determines the dominant frequency and its magnitude in the vReal array
   for (int i = 0; i < 63; i++) {
     if (Vmax < vReal[i]) {
       Vmax = vReal[i];
       Fmax = i;
     }
   }
+  //displays the dominant frequency and its magnitude on the serial monitor
   Serial.print("Strongest Frequency: ");
   Serial.print(Fmax);
   Serial.print("Hz at ");
   Serial.print(Vmax);
-  Serial.println(" Volts");
+  Serial.println(" Magnitude Units");
 
   // Prints new vReal to the serial monitor
   Serial.println("Fourier Transform ");
@@ -73,9 +78,10 @@ void loop() {
   }
   Serial.println(" ");
 
+  // Clears the display to remove the old bargraph
   display.clearDisplay();
 
-  // Diplays Column Labels for the bar graph
+  // Diplays Column Labels for the bargraph
   display.setTextSize(0);
   display.setTextColor(WHITE);
   display.setCursor(8, 0);
@@ -109,15 +115,16 @@ void loop() {
 
   //Determines the strongest brain to find a division factor to scale the graph to the small OLED screen
   for (int i = 0; i < 4; i++) {
-    if (maxV < bargraphArray[i]) {
-      maxV = bargraphArray[i];
+    if (Bmax < bargraphArray[i]) {
+      Bmax = bargraphArray[i];
     }
   }
 
   // Calculates the division factor to scale the bar graph to the small OLED screen
-  divider = round(maxV / 56);
+  divider = round(Bmax / 56);
 
-    Serial.print("Brain Waves: ");
+  // Displays the data scaled brain wave data on the serial monitor
+  Serial.print("Brain Waves: ");
   for (int i = 0; i < 4; i++) {
     Serial.print(round(bargraphArray[i] / divider));
     Serial.print(", ");
@@ -137,11 +144,15 @@ void loop() {
     bargraphArray[i] = 0;
   }
 
-  int maxV = 0;
+  // Resets the variables used to determine the dominant brain wave frequency and bargraph height divider
+  Vmax = 0;
+  Fmax = 0;
+  Bmax = 0;
 
-//  delay(10000);
+  //  delay(10000);
 }
 
+// Average power function that is used to calculate the average RMS power of each of the brain wave frequency ranges
 double averagePower(double realArray[], int start, int finish) {
   double sum;
   int coefficientCount = finish - start;
