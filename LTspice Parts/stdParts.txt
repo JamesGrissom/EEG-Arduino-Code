@@ -1,0 +1,4 @@
+.model WTB001 D(Is=1e-22 Rs=6 N=1.7 Cjo=50p Xti=100 Iave=160m Vpk=5 mfg=WTB type=LED)
+.model 1N4001 D(Is=14.11n N=1.984 Rs=33.89m Ikf=94.81 Xti=3 Eg=1.11 Cjo=25.89p M=.44 Vj=.3245 Fc=.5 Bv=75 Ibv=10u Tt=5.7u Iave=1 Vpk=50 mfg=GI type=silicon)
+.model TP0606 PMOS (LEVEL=3 RS=0.200 NSUB=3.00E15 DELTA=0.1 KAPPA=0.0821 TPG=-1 CGDO=5.2212E-11 RD=0.854 VTO=-2.100 VMAX=3.0E6 ETA=0.12098 NFS=3.384E11 TOX=1.00E-7 LD=1.1400E-9 UO=365.45 XJ=6.5E-7 THETA=4.063E-5 CGSO=8.532E-11 L=2.5E-6 W=2.0E-2)
+.model 2N7000 VDMOS(Rg=3 Vto=1.6 Rd=0 Rs=.75 Rb=.14 Kp=.17 mtriode=1.25 Cgdmax=80p Cgdmin=12p Cgs=50p Cjo=50p Is=.04p mfg=Fairchild Vds=60 Ron=2 Qg=1.5n)
